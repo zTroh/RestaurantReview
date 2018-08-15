@@ -39,12 +39,6 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 }
 
 @media screen and (max-width: 499px) {
-		nav h1 {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			height: 100%;
-		}
 		nav h1 a {
 			font-size: 12pt;
 		}
@@ -77,7 +71,13 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 		.restaurant-details-container {
 			padding: 0 0 10px 5px;
 		}
+}
 
+@media screen and (min-width: 500px) and (max-width: 655px) {
+		nav h1 a {
+			font-size: 25px;
+			letter-spacing: 25px;
+		}
 }
 #maincontent {
   background-color: #f3f3f3;
@@ -99,8 +99,12 @@ nav {
   background-color: #252831;
   text-align:center;
 }
+
 nav h1 {
-  margin: auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
 }
 nav h1 a {
   color: #fff;
