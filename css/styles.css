@@ -78,6 +78,30 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 			font-size: 25px;
 			letter-spacing: 25px;
 		}
+		.filter-options {
+			height: 140px;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+		}
+		.filter-results-container{
+			display: flex;
+			align-items: center;
+			flex: 1;
+			justify-content: space-between;
+			width: 100%;
+			padding: 0 30px 0 30px;
+		}
+		.filter-options h2 {
+			font-size: 2rem;
+			margin: 0 0;
+			text-align: center;
+			padding: 10px;
+	}
+	.filter-options select {
+		flex: 1;
+		width: 48%;
+	}
 }
 #maincontent {
   background-color: #f3f3f3;
