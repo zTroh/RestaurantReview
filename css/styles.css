@@ -37,6 +37,19 @@ h1, h2, h3, h4, h5, h6 {
 article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 	display: block;
 }
+
+@media screen and (max-width: 499px) {
+		nav h1 {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 100%;
+		}
+		nav h1 a {
+		font-size: 12pt;
+		}
+
+}
 #maincontent {
   background-color: #f3f3f3;
   min-height: 100%;
@@ -62,7 +75,6 @@ nav h1 {
 }
 nav h1 a {
   color: #fff;
-  font-size: 14pt;
   font-weight: 200;
   letter-spacing: 10px;
   text-transform: uppercase;
