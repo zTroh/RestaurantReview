@@ -111,10 +111,12 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 
     const day = document.createElement('td');
     day.innerHTML = key;
+    day.className = 'days';
     row.appendChild(day);
 
     const time = document.createElement('td');
     time.innerHTML = operatingHours[key];
+    time.className = 'times';
     row.appendChild(time);
 
     hours.appendChild(row);
@@ -147,21 +149,29 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  * Create review HTML and add it to the webpage.
  */
 createReviewHTML = (review) => {
+  const flexContainer = document.createElement('div'); // Added this flexContainer
   const li = document.createElement('li');
   const name = document.createElement('p');
+
+  flexContainer.className = 'flexContainer';
   name.innerHTML = review.name;
-  li.appendChild(name);
+  name.className = 'reviewName';
+  flexContainer.appendChild(name);
 
   const date = document.createElement('p');
   date.innerHTML = review.date;
-  li.appendChild(date);
+  date.className = 'reviewDate';
+  flexContainer.appendChild(date);
+  li.appendChild(flexContainer);
 
   const rating = document.createElement('p');
   rating.innerHTML = `Rating: ${review.rating}`;
+  rating.className = 'reviewRating';
   li.appendChild(rating);
 
   const comments = document.createElement('p');
   comments.innerHTML = review.comments;
+  comments.className = 'comments';
   li.appendChild(comments);
 
   return li;
