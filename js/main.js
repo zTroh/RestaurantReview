@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
 
+  // Register the serviceWorker when the page 
+
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker
       .register('../serviceWorker.js')
