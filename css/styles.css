@@ -341,6 +341,9 @@ nav h1 a {
   text-align: center;
   text-transform: uppercase;
 }
+.hide {
+  display: none;
+}
 
 @media screen and (max-width: 499px) {
   nav h1 a {

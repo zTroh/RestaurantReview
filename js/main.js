@@ -4,6 +4,7 @@ let restaurants,
 var newMap
 var markers = []
 
+
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
@@ -11,6 +12,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
   initMap(); // added
   fetchNeighborhoods();
   fetchCuisines();
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker
+      .register('../serviceWorker.js')
+        .then(function(registration){
+          console.log('serviceWorker registration successful');
+        })
+        .catch(function(error){
+          console.log("serviceWorker registration failed");
+        })
+  }
 });
 
 /**
@@ -157,31 +169,33 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
-  const section = document.createElement('section'); // I ADDED THIS NEWLEY CREATED SECTION
+  const figure = document.createElement('figure');
+  const figcaption = document.createElement('figcaption'); // I ADDED THIS NEWLEY CREATED SECTION
 
-  section.className = 'restaurant-details-container'; // Adding a class to the newley created section
+  figcaption.className = 'restaurant-details-container'; // Adding a class to the newley created section
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  li.append(image);
+  figure.append(image);
 
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;
-  section.append(name);
+  figcaption.append(name);
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
-  section.append(neighborhood);
+  figcaption.append(neighborhood);
 
   const address = document.createElement('p');
   address.innerHTML = restaurant.address;
-  section.append(address);
+  figcaption.append(address);
 
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
-  section.append(more);
-  li.append(section);
+  figcaption.append(more);
+  figure.append(figcaption);
+  li.append(figure);
 
   return li
 }
