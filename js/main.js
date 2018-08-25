@@ -4,7 +4,6 @@ let restaurants,
 var newMap
 var markers = []
 
-
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
@@ -13,17 +12,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
 
-  // Register the serviceWorker when the page 
-
+  // Registering the serviceWorker
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker
       .register('../serviceWorker.js')
-        .then(function(registration){
-          console.log('serviceWorker registration successful');
-        })
-        .catch(function(error){
-          console.log("serviceWorker registration failed");
-        })
+      .then(function(registration) {
+        console.log('serviceWorker registration successful');
+      })
+      .catch(function(error) {
+        console.log("serviceWorker registration failed");
+      })
   }
 });
 
@@ -49,9 +47,11 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
   neighborhoods.forEach(neighborhood => {
     const option = document.createElement('option');
     option.innerHTML = neighborhood;
+    option.tabIndex = -1; // add tabIndex to the option list
     option.value = neighborhood;
     select.append(option);
   });
+  select.firstElementChild.tabIndex = 0; // added this to add a tabindex to the first element in the list
 }
 
 /**
@@ -78,8 +78,10 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
     const option = document.createElement('option');
     option.innerHTML = cuisine;
     option.value = cuisine;
+    option.tabIndex = -1; // added this
     select.append(option);
   });
+  select.firstElementChild.tabIndex = 0; // added this to add a tabindex to the first element in the list
 }
 
 /**
@@ -87,10 +89,10 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
  */
 initMap = () => {
   self.newMap = L.map('map', {
-        center: [40.722216, -73.987501],
-        zoom: 12,
-        scrollWheelZoom: false
-      });
+    center: [40.722216, -73.987501],
+    zoom: 12,
+    scrollWheelZoom: false
+  });
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
     mapboxToken: 'pk.eyJ1IjoibGlibWFubnkiLCJhIjoiY2prdTlob3E3MGI0azN3bnU1ZnB6azh2aiJ9.RVNSM_SH97FgBTIDJ9iK7A',
     maxZoom: 18,
@@ -166,6 +168,59 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
   addMarkersToMap();
 }
 
+/*
+This function will add ALT Attribute to restaurants images
+*/
+function addAltAttribute(imageId, image, name) {
+  switch (imageId) {
+    case 1:
+      image.alt = 'People sitting around a table inside ' + name + ' restaurant';
+      break;
+    case 2:
+      image.alt = 'Cheese pizza of ' + name + ' restaurant';
+      break;
+    case 3:
+      image.alt = 'design of the inside of ' + name + ' restaurant';
+      break;
+    case 4:
+      image.alt = 'in front of the' + name + ' restaurant';
+      break;
+    case 5:
+      image.alt = 'People eating inside ' + name + 'restaurant';
+      break;
+    case 6:
+      image.alt = 'People sitting and eating inside ' + name + ' restaurant';
+      break;
+    case 7:
+      image.alt = 'People standing outside of ' + name + ' restaurant';
+      break;
+    case 8:
+      image.alt = 'the front of ' + name + ' restaurant';
+      break;
+    case 9:
+      image.alt = 'People eating inside ' + name + 'restaurant';
+      break;
+    case 10:
+      image.alt = 'design of the inside of ' + name + ' restaurant';
+      break;
+    default:
+
+  }
+}
+/*
+
+ADD aria label to all restaurant name
+so when focus, the screen reader will red the label
+*/
+
+function addAriaLabel(restaurants, name) {
+  restaurants.setAttribute('aria-label', name);
+}
+
+function addAriaRole(restaurants) {
+  restaurants.setAttribute('role', 'h1');
+}
+
 /**
  * Create restaurant HTML.
  */
@@ -182,6 +237,9 @@ createRestaurantHTML = (restaurant) => {
 
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;
+  name.tabIndex = 0;
+  addAriaLabel(name, restaurant.name);
+  addAriaRole(name);
   figcaption.append(name);
 
   const neighborhood = document.createElement('p');
@@ -195,6 +253,12 @@ createRestaurantHTML = (restaurant) => {
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
+  /*
+   Created this function to add the alt Attribute
+   this all restaurant images
+
+  */
+  addAltAttribute(restaurant.id, image, name.textContent);
   figcaption.append(more);
   figure.append(figcaption);
   li.append(figure);
@@ -210,6 +274,7 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     // Add marker to the map
     const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.newMap);
     marker.on("click", onClick);
+
     function onClick() {
       window.location.href = marker.options.url;
     }
