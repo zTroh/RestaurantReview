@@ -180,10 +180,29 @@ createReviewHTML = (review) => {
 /**
  * Add restaurant name to the breadcrumb navigation menu
  */
+
+ /*
+
+ ADD aria label to all restaurant name
+ so when focus, the screen reader will red the label
+ */
+
+ function addAriaLabel(restaurants, name) {
+   restaurants.setAttribute('aria-label', name);
+ }
+/*
+Add aria role to an element
+*/
+ function addAriaRole(restaurants,role) {
+   restaurants.setAttribute('role', role);
+ }
+
 fillBreadcrumb = (restaurant = self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
   const li = document.createElement('li');
   li.innerHTML = restaurant.name;
+  addAriaLabel(li,restaurant.name);
+  addAriaRole(li,'term');
   breadcrumb.appendChild(li);
 }
 
